@@ -1,5 +1,3 @@
-// Les 5, stap 1: een knop die reageert als je eroverheen beweegt.
-// Dit bestand staat op zichzelf: de hele poster tot en met deze stap zit erin.
 
 class Les5Stap1 extends Phaser.Scene {
   constructor() {
@@ -31,7 +29,6 @@ class Les5Stap1 extends Phaser.Scene {
     this.zetDiepte();
     this.maakConfetti();
     this.maakCameraBeweging();
-    // ★ Nieuw in deze stap
     this.maakKnop();
     this.maakRegen();
     this.maakBliksem();
@@ -42,7 +39,6 @@ class Les5Stap1 extends Phaser.Scene {
     for (const laag of this.lagen) {
       laag.sprite.tilePositionX += (laag.snelheid * delta) / 16;
     }
-    // In zes seconden leeg of vol; de vier beelden tonen het laadniveau.
     const richting = this.dagNacht.nacht >= 0.5 ? 1 : -1;
     this.batterijLading = Math.max(
       0,
@@ -108,7 +104,6 @@ class Les5Stap1 extends Phaser.Scene {
 
   maakWolken() {
     this.wolken = this.add.container(0, 0).setDepth(2);
-    // Getekende wolken hebben geen rechthoekige achtergrond.
     [
       [120, 335, 1],
       [365, 110, 0.7],
@@ -133,7 +128,6 @@ class Les5Stap1 extends Phaser.Scene {
   }
 
   maakDagNacht() {
-    // Een donkere lucht boven de daglucht, maar achter zon, maan en landschap.
     this.nachtLucht = this.add.graphics().setDepth(0.5).setAlpha(0);
     this.nachtLucht.fillGradientStyle(
       0x080e26,
@@ -165,7 +159,6 @@ class Les5Stap1 extends Phaser.Scene {
       return (kanaal(16) << 16) | (kanaal(8) << 8) | kanaal(0);
     };
 
-    // Elke zes seconden wisselen; de overgang zelf duurt twee seconden.
     this.tweens.add({
       targets: overgang,
       nacht: 1,
@@ -205,8 +198,6 @@ class Les5Stap1 extends Phaser.Scene {
   }
 
   maakHeuvels() {
-    // Een tileSprite herhaalt zijn plaatje, zodat hij eindeloos kan schuiven.
-    // De plaatjes hebben onderaan 4 lege pixels; daarom staan ze 4 pixels onder de rand.
     const laag = (sleutel, hoogte, snelheid, diepte) => ({
       sprite: this.add
         .tileSprite(W / 2, H + 4, W, hoogte, sleutel)
@@ -224,9 +215,7 @@ class Les5Stap1 extends Phaser.Scene {
   maakFiguur() {
     this.maakBatterijFrames();
     this.figuur = this.add.sprite(300, 560, "batterij-zeven-standen", 0);
-    // Frame 0 is vol (groen), frame 6 is helemaal leeg (wit).
     this.batterijLading = 1;
-    // Bewaar de tween, zodat hij later even te pauzeren is.
     this.dobber = this.tweens.add({
       targets: this.figuur,
       y: this.figuur.y - 12,
@@ -251,7 +240,6 @@ class Les5Stap1 extends Phaser.Scene {
       const doelX = (index + 4) * 132;
       context.drawImage(extra, x, 504, 158, 313, doelX, 0, 132, 259);
       const beeld = context.getImageData(doelX, 0, 132, 259);
-      // Alleen de witte buitenruimte verwijderen; het witte lichaam blijft staan.
       const bezocht = new Uint8Array(132 * 259);
       const stapel = [];
       for (let kolom = 0; kolom < 132; kolom++) stapel.push(kolom, 258 * 132 + kolom);
@@ -306,7 +294,6 @@ class Les5Stap1 extends Phaser.Scene {
     );
   }
 
-  // De intro als één reeks: titel, subtitel, figuur en dan de info.
   maakTimeline() {
     const titelY = this.titel.y;
     const subtitelY = this.subtitel.y;
@@ -339,12 +326,11 @@ class Les5Stap1 extends Phaser.Scene {
     });
   }
 
-  // Depth bepaalt wat voor wat ligt. Hoger = meer naar voren.
   zetDiepte() {
     this.lucht.setDepth(0);
     this.zon.setDepth(1);
     this.sterren.setDepth(2);
-    this.figuur.setDepth(5); // tussen de middelste en de voorste heuvel
+    this.figuur.setDepth(5);
     this.titel.setDepth(10);
     this.subtitel.setDepth(10);
     this.info.setDepth(11);
@@ -361,12 +347,10 @@ class Les5Stap1 extends Phaser.Scene {
       frequency: 220,
       tint: [KLEUR.accent, KLEUR.ster, KLEUR.blauw, KLEUR.groen],
     });
-    // Achter de heuvels, voor de lucht: zo valt de confetti "achter" het landschap.
     this.confetti.setDepth(2.5);
   }
 
   maakBliksem() {
-    // De spritesheet bevat acht kolommen en vier rijen.
     const textuur = this.textures.get("bliksem");
     const bron = textuur.getSourceImage();
     for (let frame = 0; frame < 32; frame++) {
@@ -419,7 +403,6 @@ class Les5Stap1 extends Phaser.Scene {
   }
 
   maakRegen() {
-    // Zoals in het min/max-voorbeeld krijgt elke druppel een eigen startplek.
     this.regen = this.add
       .particles(0, -40, "regen", {
         x: { min: -40, max: W + 40 },
@@ -437,8 +420,6 @@ class Les5Stap1 extends Phaser.Scene {
       .setAlpha(0);
   }
 
-  // ★ Nieuw in deze stap
-  // Op de interactieve poster is het camera-effect weer subtiel, zodat de knop in beeld blijft.
   maakCameraBeweging() {
     this.tweens.add({
       targets: this.cameras.main,
@@ -466,7 +447,6 @@ class Les5Stap1 extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    // Een container groepeert vorm en tekst; setSize geeft hem een klikbaar vlak.
     this.knop = this.add
       .container(470, 752, [vorm, tekst])
       .setSize(breedte, hoogte)

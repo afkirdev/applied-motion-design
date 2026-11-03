@@ -1,4 +1,3 @@
-// Gedeelde instellingen: maten, kleuren en lettertype.
 
 const W = 600;
 const H = 800;
