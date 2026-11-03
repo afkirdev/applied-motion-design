@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hamza afkir</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@4.2.1/dist/phaser.min.js"></script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: #2d2d2d;
+      }
+      #poster {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="poster"></div>
+    <script src="js/registry.js"></script>
+    <script src="js/stappen/les5-stap1.js"></script>
+    <script>
+      new Phaser.Game({
+        type: Phaser.AUTO,
+        parent: "poster",
+        width: W,
+        height: H,
+        backgroundColor: "#fef6e4",
+        scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+        scene: Les5Stap1,
+      });
+    </script>
+  </body>
+</html>
