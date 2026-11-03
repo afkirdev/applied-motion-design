@@ -1,0 +1,15 @@
+Phaser-poster: les 5, stap 1 (Hover op knop)
+
+Een schone versie van de poster tot en met deze stap, om als template te gebruiken.
+De scene staat in js/stappen/les5-stap1.js, de maten en kleuren in js/registry.js en de beelden
+in assets/. index.html start de scene Les5Stap1.
+
+Openen
+------
+Phaser laadt beelden via een webserver. Dubbelklikken op index.html werkt daarom niet.
+Open deze map in VS Code en start Live Server, of typ in deze map:
+
+    python3 -m http.server
+
+en ga in je browser naar http://localhost:8000.
+Phaser 4.2.1 komt van internet (jsDelivr), dus je hebt een internetverbinding nodig.
